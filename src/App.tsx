@@ -1,7 +1,11 @@
+import React from "react";
+import { Router } from "react-router-dom";
 
 function App(){
   return (
-    <div></div>
+    <div>
+      <Router />
+    </div>
   )
 }
 
