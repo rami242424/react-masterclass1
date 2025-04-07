@@ -66,6 +66,7 @@ interface ICoin {
 
 function Coins(){
     const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+    console.log(isLoading, data, "이즈로딩과 데이타")
     /* const [coins, setCoins] = useState<ICoin[]>([]);
     const [loading, setLoading] = useState(true);
 
