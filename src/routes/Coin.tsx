@@ -153,8 +153,6 @@ function Coin(){
     }, [coinId]); */
 
     
-
-
     const loading = infoLoading || tickersLoading
 
     return (
@@ -201,16 +199,13 @@ function Coin(){
                     </Tab>
                   </Tabs>
 
-
-
-
                   <Switch>
                     {/* <Route path={`/${coinId}/price`}> */}
                     <Route path={`/:coinId/price`}>
                         <Price />
                     </Route>
                     <Route path={`/:coinId/chart`}>
-                        <Chart />
+                        <Chart coinId={coinId} />
                     </Route>
                   </Switch>
                 </>
