@@ -147,6 +147,8 @@ function Coin(){
             setLoading(false);
         })();
     }, [coinId]);
+
+    
     return (
         <Container>
             <Header>
