@@ -1,6 +1,5 @@
 import { Link, Route, Switch, useLocation, useParams, useRouteMatch } from "react-router-dom";
 import { Container, Header, Loader, Title } from "./Coins";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Price from "./Price";
 import Chart from "./Chart";
@@ -85,6 +84,7 @@ const Overview = styled.div`
   padding: 10px 20px;
   border-radius: 10px;
 `;
+
 const OverviewItem = styled.div`
   display: flex;
   flex-direction: column;
@@ -97,6 +97,7 @@ const OverviewItem = styled.div`
     margin-bottom: 5px;
   }
 `;
+
 const Description = styled.p`
   margin: 20px 0px;
 `;
@@ -131,31 +132,12 @@ function Coin(){
 
   const {isLoading: infoLoading, data: infoData} = useQuery<InfoData>(["info", coinId], () => fetchCoinInfo(coinId));
   const {isLoading: tickersLoading, data: tickersData} = useQuery<PriceData>(["tickers", coinId], () => fetchCoinTickers(coinId),
-  {
-    refetchInterval: 5000, 
-  }
-
-);
+    {
+      refetchInterval: 5000, 
+    }
+  );
   
-  /* const [loading, setLoading] = useState(true);
-  const [info, setInfo] = useState<InfoData>();
-  const [priceInfo, setPriceInfo] = useState<PriceData>();
-    useEffect(() => {
-        (async () => {
-            const infoData = await (
-                await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-            ).json();
-
-            const priceData = await (
-                await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-            ).json();
-            setInfo(infoData);
-            setPriceInfo(priceData);
-            // console.log(infoData)
-            // console.log(priceData)
-            setLoading(false);
-        })();
-    }, [coinId]); */
+ 
 
     
     const loading = infoLoading || tickersLoading
@@ -196,16 +178,15 @@ function Coin(){
                   </Overview>
 
                   <Tabs>
-                    <Tab isActive={ chartMatch !== null}>
+                    <Tab as="div" isActive={ chartMatch !== null}>
                         <Link to={`/${coinId}/chart`}>Chart</Link>
                     </Tab>
-                    <Tab isActive={ priceMatch !== null}>
+                    <Tab as="div" isActive={ priceMatch !== null}>
                         <Link to={`/${coinId}/price`}>Price</Link>
                     </Tab>
                   </Tabs>
 
                   <Switch>
-                    {/* <Route path={`/${coinId}/price`}> */}
                     <Route path={`/:coinId/price`}>
                         <Price />
                     </Route>

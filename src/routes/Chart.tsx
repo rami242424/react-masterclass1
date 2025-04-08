@@ -11,7 +11,6 @@ interface IHistorical {
   close: number;
   volume: number;
   market_cap: number;
- 
 }
 interface ChartProps {
   coinId: string;
