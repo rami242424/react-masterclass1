@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { fetchCoins } from "../api";
 import { useSetRecoilState } from "recoil";
 import { isDarkAtom } from "../atoms";
+import { Helmet } from "react-helmet";
 
 
 
@@ -76,6 +77,9 @@ function Coins(){
 
     return(
         <Container>
+            <Helmet>
+                <Title>코인 이름</Title>
+            </Helmet>
             <Header>
                 <Title>코인</Title>
                 <button onClick={toggleDarkAtom}>Toggle Mode</button>
