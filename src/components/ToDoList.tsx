@@ -6,19 +6,27 @@ import ToDo from './ToDo';
 
 
 function ToDoList(){
-    const toDos = useRecoilValue(toDoState);
-    const selectorOutput = useRecoilValue(toDoSelector);
-    console.log(selectorOutput);
-    //console.log(toDos, "투두스");
-
+    const [toDo, doing, done] = useRecoilValue(toDoSelector);
     return (
         <div>
             <h1>To Dos</h1>
             <hr />
             <CreateToDo />
+            <h2>To Do</h2>
             <ul>
-                {toDos.map((toDo) => <ToDo key={toDo.id} {...toDo}></ToDo>)}
+                {toDo.map((toDo) => <ToDo key={toDo.id} {...toDo}></ToDo>)}
             </ul>
+            <hr />
+            <h2>DOING</h2>
+            <ul>
+                {doing.map((toDo) => <ToDo key={toDo.id} {...toDo}></ToDo>)}
+            </ul>
+            <hr />
+            <h2>DONE</h2>
+            <ul>
+                {done.map((toDo) => <ToDo key={toDo.id} {...toDo}></ToDo>)}
+            </ul>
+            <hr />
         </div>
     );
 }
