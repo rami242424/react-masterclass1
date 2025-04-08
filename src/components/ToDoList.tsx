@@ -14,7 +14,7 @@ function ToDoList(){
             <hr />
             <CreateToDo />
             <ul>
-                {toDos.map((toDo) => <ToDo key={toDo.id} {...toDo}/>)}
+                {toDos.map((toDo) => <ToDo key={toDo.id} {...toDo}></ToDo>)}
             </ul>
         </div>
     );
