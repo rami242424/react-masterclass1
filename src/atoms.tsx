@@ -21,10 +21,16 @@ export const toDoSelector = selector({
     key: "ToDoSelector",
     get: ({ get })=> {
         const toDos = get(toDoState);
-        return [
-            toDos.filter(toDo => toDo.category === "TO_DO"),
-            toDos.filter(toDo => toDo.category === "DOING"),
-            toDos.filter(toDo => toDo.category === "DONE")
-        ];
+        const category = get(categoryState);
+
+        /* if(category === "TO_DO") 
+            return toDos.filter(toDo => toDo.category === "TO_DO")
+        if (category === "DOING") 
+            return  toDos.filter(toDo => toDo.category === "DOING")
+        if (category === "DONE") 
+            return toDos.filter(toDo => toDo.category === "DONE")
+ */
+        return toDos.filter(toDo => toDo.category === category)
+
     }
 })
