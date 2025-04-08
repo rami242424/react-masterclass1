@@ -29,18 +29,23 @@ interface IForm {
     username : string,
     password1 : string,
     password2 : string,
+    extraErrors?: string;
 }
 
 function ToDoList(){
-    const { register, handleSubmit, formState:{errors} } = useForm<IForm>({
+    const { register, handleSubmit, formState:{errors}, setError } = useForm<IForm>({
         defaultValues: {
             email: "@naver.com",
         },
     });
-    const onVaild = (data:any) => {
+    const onVaild = (data:IForm) => {
         // console.log(data);
+        if(data.password1 !== data.password2){
+            setError("password2", {message : "Password is different"})
+        }
+        setError("extraErrors", { message: "Server offline."}, { shouldFocus: true});
     };
-    // console.log(errors);
+    console.log(errors);
     return (
         <div>
             <form style={{ display : "flex", flexDirection: "column"}} onSubmit={handleSubmit(onVaild)}>
@@ -55,7 +60,17 @@ function ToDoList(){
                 <span>
                     {errors?.email?.message}
                 </span>
-                <input {...register("firstname", {required: "write first name here"})} placeholder="Firstname" />
+                <input {...register("firstname", {
+                    required: "write first name here", 
+                    validate: {
+                        noNico : (value) => 
+                            value.includes("nico") ? "no nico allowed" : true,
+                        noNick : (value) => 
+                            value.includes("nick") ? "no nick allowed" : true,
+                        },
+                    })} 
+                    placeholder="Firstname" 
+                />
                 <span>
                     {errors?.firstname?.message}
                 </span>
@@ -82,6 +97,9 @@ function ToDoList(){
                     {errors?.password2?.message}
                 </span>
                 <button>Add</button>
+                <span>
+                    {errors?.extraErrors?.message}
+                </span>
             </form>
         </div>
     );
