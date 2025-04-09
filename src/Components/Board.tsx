@@ -4,12 +4,21 @@ import DraggableCard from "./DraggableCard";
 
 
 
+
 const Wrapper = styled.div`
+  width: 300px;
   padding: 20px 10px;
-  padding-top: 30px;
+  padding-top: 10px;
   background-color: ${(props) => props.theme.boardColor};
   border-radius: 5px;
-  min-height: 200px;
+  min-height: 300px;
+`;
+
+const Title = styled.h2`
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 18px;
 `;
 
 interface IBoardProps{
@@ -19,16 +28,19 @@ interface IBoardProps{
 
 function Board({toDos, boardId}:IBoardProps){
     return (
-        <Droppable droppableId={boardId}>
-            {(magic) => (
-              <Wrapper ref={magic.innerRef} {...magic.droppableProps}>
-                  {toDos.map((toDo, index) => (
+        <Wrapper>
+            <Title>{boardId}</Title>
+            <Droppable droppableId={boardId}>
+                {(magic) => (
+                <div ref={magic.innerRef} {...magic.droppableProps}>
+                    {toDos.map((toDo, index) => (
                     <DraggableCard key={toDo} index={index} toDo={toDo} />
-                  ))}
-                  {magic.placeholder}
-              </Wrapper>
-            )}
-        </Droppable>
+                    ))}
+                    {magic.placeholder}
+                </div>
+                )}
+            </Droppable>
+        </Wrapper>
     )
 }
 
