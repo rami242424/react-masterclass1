@@ -34,8 +34,8 @@ function App(){
   const onDragEnd = (info: DropResult) => {
     console.log(info, "info");
     const { destination, draggableId, source } = info;
-
-    // same board movement 라면
+    if(!destination) return;
+    // 1. same board movement (같은 보드내에서 이동)
     if(destination?.droppableId === source.droppableId){
       setToDos((allBoards) => {
         const boardCopy = [...allBoards[source.droppableId]];  
@@ -47,6 +47,20 @@ function App(){
         };
     });
 
+    }
+    // 2. cross board movement (다른 보드로 이동)
+    if(destination?.droppableId !== source.droppableId){
+      setToDos((allBoards) => {
+        const sourceBoard = [...allBoards[source.droppableId]];
+        const destinationBoard = [...allBoards[destination?.droppableId]];
+        sourceBoard.splice(source.index, 1);
+        destinationBoard.splice(destination?.index, 0, draggableId);
+        return {
+          ...allBoards,
+          [source.droppableId] : sourceBoard,
+          [destination.droppableId] : destinationBoard,
+        }
+      })
     }
   };
 
