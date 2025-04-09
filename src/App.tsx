@@ -1,5 +1,7 @@
-import {DragDropContext, Draggable, Droppable, } from "react-beautiful-dnd";
+import {DragDropContext, Draggable, Droppable, DropResult, } from "react-beautiful-dnd";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { toDoState } from "./atoms";
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,10 +34,18 @@ const Card = styled.div`
   background-color: ${(props) => props.theme.cardColor};
 `;
 
-const toDos = ["a", "b", "c", "d"]
 
 function App(){
-  const onDragEnd = () => {};
+  const [toDos, setToDos] = useRecoilState(toDoState);
+  // event 또는 arg(상관x)으로 드래그에 대한 상세 정보를 얻을 수 있다!
+  // such as destination, source etc...
+  // const onDragEnd = (event:any) => {
+  //   console.log(event, "dragging fin");
+  // };
+  const onDragEnd = ({ destination, source }: DropResult) => {
+    
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
@@ -43,7 +53,7 @@ function App(){
           <Droppable droppableId="one">
             {(magic) => (
               <Board ref={magic.innerRef} {...magic.droppableProps}>
-                  {toDos.map((toDo, index) => <Draggable draggableId={toDo} index={index}>
+                  {toDos.map((toDo, index) => <Draggable key={index} draggableId={toDo} index={index}>
                     {(magic) => (
                       <Card 
                         ref={magic.innerRef}
