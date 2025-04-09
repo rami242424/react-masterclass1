@@ -12,6 +12,7 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
     "apexcharts": "^3.35.3",
+    "framer-motion": "^4.1.17",
     "react": "^17.0.2",
     "react-apexcharts": "^1.7.0",
     "react-beautiful-dnd": "^13.1.1",
