@@ -22,9 +22,6 @@ const Boards = styled.div`
 `;
 
 
-
-
-
 function App(){
   const [toDos, setToDos] = useRecoilState(toDoState);
   // such as destination, source etc...
@@ -32,7 +29,7 @@ function App(){
   //   console.log(event, "dragging fin");
   // };
   const onDragEnd = (info: DropResult) => {
-    console.log(info, "info");
+    // console.log(info, "info");
     const { destination, draggableId, source } = info;
     if(!destination) return;
     // 1. same board movement (같은 보드내에서 이동)
