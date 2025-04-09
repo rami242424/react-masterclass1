@@ -42,8 +42,23 @@ function App(){
   // const onDragEnd = (event:any) => {
   //   console.log(event, "dragging fin");
   // };
-  const onDragEnd = ({ destination, source }: DropResult) => {
-    
+  const onDragEnd = ({ destination, source, draggableId }: DropResult) => {
+    if(!destination) return;
+    setToDos(oldToDos => {
+      const toDosCopy = [...oldToDos];
+      // 1) Delete item on source.index (움직인 item 정보) : 원래자리에서 제거
+      console.log("Delete item on", source.index);
+      console.log(toDosCopy);
+      toDosCopy.splice(source.index, 1);
+      console.log("Deleted item");
+      console.log(toDosCopy);
+
+      // 2) Put back the item on the destination.index (이동한 위치): 새 위치에 삽입
+      console.log("Put back", draggableId, "on ", destination.index);
+      toDosCopy.splice(destination?.index, 0, draggableId);
+      console.log(toDosCopy);
+      return toDosCopy;
+    });
   };
 
   return (
@@ -53,7 +68,8 @@ function App(){
           <Droppable droppableId="one">
             {(magic) => (
               <Board ref={magic.innerRef} {...magic.droppableProps}>
-                  {toDos.map((toDo, index) => <Draggable key={index} draggableId={toDo} index={index}>
+                  {toDos.map((toDo, index) => (
+                    <Draggable key={toDo} draggableId={toDo} index={index}>
                     {(magic) => (
                       <Card 
                         ref={magic.innerRef}
@@ -62,8 +78,9 @@ function App(){
                       >
                         {toDo}
                       </Card>
-                    )}
-                  </Draggable>)}
+                      )}
+                    </Draggable>
+                  ))}
                   {magic.placeholder}
               </Board>
             )}
