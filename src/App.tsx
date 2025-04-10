@@ -26,12 +26,19 @@ const Box = styled(motion.div)`
 `;
 
 const box = {
-  invisible: {
-    x: 500,
-    opacity: 0,
-    scale: 0,
+  // entry: (back:boolean) => ({
+  //   x: 500,
+  //   opacity: 0,
+  //   scale: 0,
+  // }),
+  entry: (potato:boolean) => {
+    return {
+      x: potato ? -500 : 500,
+      opacity: 0,
+      scale: 0,
+    }
   },
-  visible: {
+  center: {
     x: 0,
     opacity: 1,
     scale: 1,
@@ -39,13 +46,15 @@ const box = {
       duration : 1,
     }
   },
-  exit:{
-    x: -500,
-    opacity: 0,
-    scale: 0,
-    rotateX : 180,
-    transition: {
+  exit: (potato:boolean) => {
+    return {
+      x: potato ? 500 : -500,
+      opacity: 0,
+      scale: 0,
+      rotateX : 180,
+      transition: {
       duration : 1,
+    }
     }
   },
 }
@@ -53,19 +62,25 @@ const box = {
 
 function App(){
   const [visible, SetVisible] = useState(1);
+  const [back, setBack] = useState(false);
   const nextPlz = () => {
+    setBack(false);
     SetVisible((prev) => (prev === 10 ? 10 : prev+1))
   }
   const prevPlz = () => {
+    setBack(true);
     SetVisible((prev) => (prev === 1 ? 1 : prev-1))
   }
   return (
     <Wrapper>
-      <AnimatePresence>
+      <AnimatePresence 
+        //exitBeforeEnter 
+        custom={back}>
         <Box 
+          custom={back}
           variants={box} 
-          initial="invisible" 
-          animate="visible"  
+          initial="entry" 
+          animate="center"  
           exit="exit"
           key={visible}
         >
