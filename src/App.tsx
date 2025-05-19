@@ -27,56 +27,55 @@ const Box = styled(motion.div)`
 `;
 
 const BoxVar = {
-  invisible : {
-    x: 500,
+  entry : (isBack:boolean) => ({
+    x: isBack ? -500 : 500,
     opacity: 0,
     scale: 0,
-  },
-  visible : {
+  }),
+  center : {
     x: 0,
     opacity: 1,
     scale: 1,
     transition : {
-      duration: 1,
+      duration: 0.2,
     },
   },
-  exit: {
-    x: -500,
-    opacity: 0,
-    // scale: 0,
-    rotateX : 180,
-    transition : {
-      duration: 1,
+  exit: (isBack:boolean) => {
+    return {
+      x: isBack ? 500 : -500,
+      opacity: 0,
+      rotateX : 180,
+      transition : {
+        duration: 0.3,
+      }
     }
-  },
+  }
 }
 
 function App() {
   const [visible, setVisible] = useState(1);
+  const [back, setBack] = useState(false);
   const nextPlz = () => {
-    setVisible((curr) => (curr === 10 ? 10 : curr + 1))
+    setVisible((curr) => (curr === 10 ? 10 : curr + 1));
+    setBack(false);
   }
   const prevPlz = () => {
-    setVisible((curr) => (curr === 1 ? 1 : curr - 1))
+    setVisible((curr) => (curr === 1 ? 1 : curr - 1));
+    setBack(true);
   }
   return (
     <Wrapper>
-      <AnimatePresence>
-        {[1,2,3,4,5,6,7,8,9,10].map((n) => (
-            n === visible ? (
-              <Box 
-                key={n}
-                variants={BoxVar}
-                initial="invisible"
-                animate="visible"
-                exit="exit"
-              >
-                {n}
-              </Box>
-            ) : (
-              null
-            )
-          ))}
+      <AnimatePresence custom={back}>
+        <Box 
+          custom={back}
+          key={visible}
+          variants={BoxVar}
+          initial="entry"
+          animate="center"
+          exit="exit"
+        >
+          {visible}
+        </Box>
       </AnimatePresence>
       <button onClick={nextPlz}>next</button>
       <button onClick={prevPlz}>prev</button>
