@@ -22,8 +22,6 @@ const Grid = styled.div`
 `;
 
 const Box = styled(motion.div)`
-
-
   background-color: rgba(255, 255, 255, 1);
   border-radius: 40px;
   height: 200px;
@@ -37,40 +35,45 @@ const Overlay = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  background-color:rgba(0, 0, 0, 0.5);
 `;
 
-const overlay = {
-  hidden: { backgroundColor: "rgba(0, 0, 0, 0)" },
-  visible: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
-  exit: { backgroundColor: "rgba(0, 0, 0, 0)" },
-};
+// const overlay = {
+//   hidden: { backgroundColor: "rgba(0, 0, 0, 0)" },
+//   visible: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
+//   exit: { backgroundColor: "rgba(0, 0, 0, 0)" },
+// };
 
 
 
 function App() {
-  const [id, setId] = useState<null | string>(null);
-
+const [click, setClick] = useState(false);
+const toggle = () =>{
+  setClick((prev => !prev));
+}
   return (
-    <Wrapper>
+    <Wrapper onClick={toggle}>
       <Grid>
-        {["1", "2", "3", "4"].map((n) => (
-          <Box onClick={() => setId(n)} key={n} layoutId={n} />
-        ))}
+        <Box />
+        <Box />
+        <Box />
+        <Box />
       </Grid>
       <AnimatePresence>
-        {id ? (
-          <Overlay
-            variants={overlay}
-            onClick={() => setId(null)}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            <Box layoutId={id} style={{ width: 400, height: 200 }} />
-          </Overlay>
-        ) : null}
+        { click ? (
+            <Overlay
+              initial={{opacity: 0}}
+              animate={{opacity: 1}}
+              exit={{opacity: 0}}
+            >
+
+            </Overlay>
+          ) : (
+            null
+          )
+        }
       </AnimatePresence>
+
     </Wrapper>
   );
 }
