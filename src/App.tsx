@@ -94,21 +94,15 @@ function App() {
   return (
     <Wrapper>
       <AnimatePresence> 
-        {[1,2,3,4,5,6,7,8,9,10].map((n) => (
-          n === visible ? (
-            <Box 
-              variants={boxVar}
-              initial="invisible"
-              animate="visible"
-              exit="exit"
-              key={n}
-            >
-              {n}
-            </Box>
-          ) : (
-            null
-          )
-        ))}
+        <Box 
+          variants={boxVar}
+          initial="invisible"
+          animate="visible"
+          exit="exit"
+          key={visible}
+        >
+          {visible}
+        </Box>
       </AnimatePresence>
       <button onClick={nextPlz}>nextPlz</button>
       <button onClick={prevPlz}>prevPlz</button>
