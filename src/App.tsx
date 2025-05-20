@@ -54,50 +54,55 @@ const Overlay = styled(motion.div)`
 // };
 
 const boxVar = {
-  invisible: {
-    x: 500,
+  entry: (isBack:boolean) => ({
+    x: isBack ? -500 : 500,
     opacity: 0,
     scale: 0,
-  },
-  visible:{
+  }),
+  center: (isBack:boolean) => ({
     x: 0,
     opacity: 1,
     scale: 1,
     transition : {
       duration : 1,
     }
-  },
-  exit: {
-    x: -500,
+  }),
+  exit: (isBack:boolean) => ({
+    x: isBack ? 500 : -500,
     opacity: 0,
     scale: 0,
     transition : {
       duration : 1,
     },
     rotateX: 180,
-  }
+  })
 }
 
 
 function App() {
   const [visible, setVisible] = useState(1);
+  const [isBack, setIsback] = useState(false);
   const nextPlz = () => {
     setVisible((prev) => (
       prev === 10 ? 10 : prev+1
     ));
+    setIsback(false);
   }
   const prevPlz = () => {
     setVisible((prev) => (
       prev === 1 ? 1 : prev-1
     ));
+    setIsback(true);
   }
+  
+
   return (
     <Wrapper>
-      <AnimatePresence> 
+      <AnimatePresence custom={isBack}> 
         <Box 
           variants={boxVar}
-          initial="invisible"
-          animate="visible"
+          initial="entry"
+          animate="center"
           exit="exit"
           key={visible}
         >
