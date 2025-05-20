@@ -37,7 +37,7 @@ const Overlay = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color:rgba(0, 0, 0, 0.5);
+  //background-color:rgba(0, 0, 0, 0.5);
 `;
 
 // const overlay = {
@@ -63,15 +63,22 @@ function App() {
   return (
     <Wrapper onClick={toggle}>
       <Grid>
-        <Box />
+        <Box layoutId="hello"/>
         <Box />
         <Box />
         <Box />
       </Grid>
       <AnimatePresence>
          { click ? (
-            <Overlay initial={{ opacity: 0}} animate={{ opacity: 1}} exit={{ opacity : 0}}>
-              
+            <Overlay 
+              initial={{ backgroundColor: "rgba(0, 0, 0, 0)" }} 
+              animate={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+              exit={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
+            >
+              <Box 
+                layoutId="hello" 
+                style={{ width: 400, height: 200}}
+              />
             </Overlay>
           ) : (
             null
