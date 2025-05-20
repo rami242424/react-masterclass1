@@ -22,10 +22,9 @@ const Grid = styled.div`
 `;
 
 const Box = styled(motion.div)`
-  background-color:rgba(0, 0, 0, 0.5);
+  background-color:rgba(225,225,225,1);
   border-radius: 15px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+
   width: 200px;
   height: 200px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
@@ -57,44 +56,26 @@ const Circle = styled(motion.div)`
 
 const boxVar = {
   start : {
-    opacity: 0,
-    scale: 0,
+    
   },
   end : {
-    opacity: 1,
-    scale: 1,
-    transition : {
-      type: "spring",
-      duration : 0.5,
-      bounce: 0.5,
-      delayChildren : 0.5,
-      staggerChildren : 0.2,
-    }
+   
   },
 }
 
-const circleVar = {
-  start: {
-    opacity: 0,
-    y: 10,
-  },
-  end: {
-    opacity: 1,
-    y: 0,
-  }
-}
 
 
 function App() {
   
   return (
     <Wrapper>di
-      <Box variants={boxVar} initial="start" animate="end">
-        <Circle variants={circleVar}/>
-        <Circle variants={circleVar}/>
-        <Circle variants={circleVar}/>
-        <Circle variants={circleVar}/>
-      </Box>
+      <Box 
+        // variants={boxVar} 
+        // initial="start" 
+        // animate="end"
+        whileHover={{ scale : 1.5 , rotateZ: 90}}
+        whileTap={{ borderRadius: "100px" }}
+      />
     </Wrapper>
   );
 }
