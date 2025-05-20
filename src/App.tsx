@@ -55,22 +55,20 @@ const Circle = styled(motion.div)`
 `;
 
 function App() {
-  const [click, setClick] = useState(false);
-  const toggle = () => {
-    setClick((prev) => !prev);
-  }
+  const [id, setId] = useState<string | null>(null);
+ 
 
   return (
-    <Wrapper onClick={toggle}>
+    <Wrapper>
       <Grid>
-        <Box layoutId="hello"/>
-        <Box />
-        <Box />
-        <Box />
+        {[1,2,3,4].map((n) => (
+          <Box onClick={() => setId(n)} key={n} layoutId={n+""} />
+        ))}
       </Grid>
       <AnimatePresence>
-         { click ? (
-            <Overlay 
+         { id ? (
+            <Overlay
+              onClick={() => setId(null)} 
               initial={{ backgroundColor: "rgba(0, 0, 0, 0)" }} 
               animate={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
               exit={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
