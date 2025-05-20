@@ -22,8 +22,10 @@ const Grid = styled.div`
 `;
 
 const Box = styled(motion.div)`
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 40px;
+  background-color:rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   width: 200px;
   height: 200px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
@@ -45,29 +47,51 @@ const Overlay = styled(motion.div)`
 //   exit: { backgroundColor: "rgba(0, 0, 0, 0)" },
 // };
 
-const BoxVar = {
-  start: {
+const Circle = styled(motion.div)`
+ background-color: white;
+ height: 70px;
+ width: 70px;
+ place-self: center;
+ border-radius: 50px;
+`;
+
+const boxVar = {
+  start : {
+    opacity: 0,
     scale: 0,
   },
-  end: {
-    scale: 1, 
-    rotateZ: 360,
-    transition: { 
-      type: "spring", 
-      delay: 0.5 
+  end : {
+    opacity: 1,
+    scale: 1,
+    transition : {
+      type: "spring",
+      duration : 0.5,
+      bounce: 0.5,
+      delayChildren : 0.5,
     }
+  },
+}
+
+const circleVar = {
+  start: {
+    opacity: 0,
+  },
+  end: {
+    opacity: 1,
   }
 }
+
 
 function App() {
   
   return (
-    <Wrapper>
-      <Box
-        variants={BoxVar}
-        initial="start"
-        animate="end"
-      />
+    <Wrapper>di
+      <Box variants={boxVar} initial="start" animate="end">
+        <Circle variants={circleVar}/>
+        <Circle variants={circleVar}/>
+        <Circle variants={circleVar}/>
+        <Circle variants={circleVar}/>
+      </Box>
     </Wrapper>
   );
 }
