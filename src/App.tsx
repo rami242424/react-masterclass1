@@ -24,6 +24,7 @@ const Grid = styled.div`
 const Box = styled(motion.div)`
   background-color: rgba(255, 255, 255, 1);
   border-radius: 40px;
+  width: 200px;
   height: 200px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
@@ -47,31 +48,14 @@ const Overlay = styled(motion.div)`
 
 
 function App() {
-  const [id, setId] = useState<null | string>(null);
-
+  
   return (
     <Wrapper>
-      <Grid>
-        {["1","2","3","4"].map((n) => (
-          <Box onClick={() => setId(n)} key={n} layoutId={n}/>
-        ))}
-      </Grid>
-      <AnimatePresence>
-        { id ? (
-            <Overlay
-              onClick={() => setId(null)}
-              initial={{ backgroundColor: "rgba(0, 0, 0, 0)"}}
-              animate={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-              exit={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
-            >
-              <Box layoutId={id} style={{ width: 400, height: 200 }}/>
-            </Overlay>
-          ) : (
-            null
-          )
-        }
-      </AnimatePresence>
-
+      <Box
+        transition={{ type: "spring", delay: 0.5 }}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, rotateZ: 360 }}
+      />
     </Wrapper>
   );
 }
