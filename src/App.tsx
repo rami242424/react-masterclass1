@@ -61,8 +61,8 @@ function App() {
   return (
     <Wrapper>
       <Grid>
-        {[1,2,3,4].map((n) => (
-          <Box onClick={() => setId(n)} key={n} layoutId={n+""} />
+        {["1","2","3","4"].map((n) => (
+          <Box onClick={() => setId(n)} key={n} layoutId={n} />
         ))}
       </Grid>
       <AnimatePresence>
@@ -74,7 +74,7 @@ function App() {
               exit={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
             >
               <Box 
-                layoutId="hello" 
+                layoutId={id} 
                 style={{ width: 400, height: 200}}
               />
             </Overlay>
