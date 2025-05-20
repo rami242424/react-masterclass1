@@ -2,12 +2,13 @@ import styled from "styled-components";
 import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  background: linear-gradient(135deg, rgb(238, 0, 153), rgb(221, 0, 238));
 `;
 
 const Grid = styled.div`
@@ -50,9 +51,17 @@ const Overlay = styled(motion.div)`
 function App() {
   const x = useMotionValue(0);
   const rotateZ = useTransform(x, [-800, 800], [-360, 360]);
-  
+  const WrapperGradient = useTransform(
+      x, 
+      [-800,0, 800],
+      [
+      "linear-gradient(135deg, rgb(238, 0, 153), rgb(221, 0, 238))",
+      "linear-gradient(135deg, rgb(224, 241, 35), rgb(92, 227, 8))",
+      "linear-gradient(135deg, rgb(211, 94, 17), rgb(228, 85, 85))"
+      ],
+    );
   return (
-    <Wrapper>
+    <Wrapper style={{background:WrapperGradient}}>
       <Box 
         drag="x"
         dragSnapToOrigin
