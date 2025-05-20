@@ -45,16 +45,28 @@ const Overlay = styled(motion.div)`
 //   exit: { backgroundColor: "rgba(0, 0, 0, 0)" },
 // };
 
-
+const BoxVar = {
+  start: {
+    scale: 0,
+  },
+  end: {
+    scale: 1, 
+    rotateZ: 360,
+    transition: { 
+      type: "spring", 
+      delay: 0.5 
+    }
+  }
+}
 
 function App() {
   
   return (
     <Wrapper>
       <Box
-        transition={{ type: "spring", delay: 0.5 }}
-        initial={{ scale: 0 }}
-        animate={{ scale: 1, rotateZ: 360 }}
+        variants={BoxVar}
+        initial="start"
+        animate="end"
       />
     </Wrapper>
   );
