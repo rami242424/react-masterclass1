@@ -89,6 +89,7 @@ function App() {
           drag
           dragConstraints={ biggerBoxRef }
           dragSnapToOrigin
+          dragElastic={1}
           whileDrag={"drag"}
           variants={boxVar} 
           // initial="start" 
