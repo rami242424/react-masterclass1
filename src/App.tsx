@@ -49,11 +49,10 @@ const Overlay = styled(motion.div)`
 
 function App() {
   const x = useMotionValue(0);
-  useEffect(() => {
-    x.onChange(() => console.log(x.get()));
-  })
+  
   return (
     <Wrapper>
+      <button onClick={() => x.set(300)}>Click me</button>
       <Box 
         drag="x"
         dragSnapToOrigin
