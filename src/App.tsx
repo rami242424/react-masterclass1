@@ -31,6 +31,8 @@ const Box = styled(motion.div)`
   top: 100px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
   display:flex;
+  justify-content:center;
+  align-items: center;
 `;
 
 const Overlay = styled(motion.div)`
@@ -65,10 +67,11 @@ function App() {
 
   return (
     <Wrapper onClick={toggle}>
-      <Box style={{ 
-        justifyContent: click ? "center" : "flex-start", alignItems: click ? "center" : "flex-start"
-       }}>
-        <Circle layout />
+      <Box>
+        { click? <Circle layoutId="hello"/> : null}
+      </Box>
+      <Box>
+        { !click? <Circle layoutId="hello"/> : null}
       </Box>
     </Wrapper>
   );
