@@ -49,14 +49,14 @@ const Overlay = styled(motion.div)`
 
 function App() {
   const x = useMotionValue(0);
-  const potato = useTransform(x, [-800, 0, 800], [0.1, 1, 2])
+  const rotateZ = useTransform(x, [-800, 800], [-360, 360]);
   
   return (
     <Wrapper>
       <Box 
         drag="x"
         dragSnapToOrigin
-        style={{ x, scale:potato }}
+        style={{ x, rotateZ }}
       />
     </Wrapper>
   );
