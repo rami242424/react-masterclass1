@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, useViewportScroll } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 const Wrapper = styled(motion.div)`
-  height: 100vh;
+  height: 300vh;
   width: 100vw;
   display: flex;
   justify-content: space-around;
@@ -50,22 +50,26 @@ const Overlay = styled(motion.div)`
 
 function App() {
   const x = useMotionValue(0);
+  const {scrollY, scrollYProgress} = useViewportScroll();
+  useEffect(() => {
+    scrollY.onChange(() => console.log(scrollY.get(), scrollYProgress.get()));
+  }, [scrollY, scrollYProgress])
   const rotateZ = useTransform(x, [-800, 800], [-360, 360]);
   const WrapperGradient = useTransform(
       x, 
-      [-800,0, 800],
+      [-800, 800],
       [
       "linear-gradient(135deg, rgb(238, 0, 153), rgb(221, 0, 238))",
-      "linear-gradient(135deg, rgb(224, 241, 35), rgb(92, 227, 8))",
       "linear-gradient(135deg, rgb(211, 94, 17), rgb(228, 85, 85))"
       ],
     );
+  const scale = useTransform(scrollYProgress, [0, 1], [0.1, 5]);
   return (
     <Wrapper style={{background:WrapperGradient}}>
       <Box 
         drag="x"
         dragSnapToOrigin
-        style={{ x, rotateZ }}
+        style={{ x, rotateZ, scale}}
       />
     </Wrapper>
   );
