@@ -24,15 +24,10 @@ const Grid = styled.div`
 `;
 
 const Box = styled(motion.div)`
-  width: 400px;
-  height: 400px;
-  border-radius: 40px;
   background-color: rgba(255, 255, 255, 1);
-  top: 100px;
+  height: 200px;
+  border-radius: 40px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
-  display:flex;
-  justify-content:center;
-  align-items: center;
 `;
 
 const Overlay = styled(motion.div)`
@@ -42,7 +37,7 @@ const Overlay = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  //background-color:rgba(0, 0, 0, 0.5);
+  background-color:rgba(0, 0, 0, 0.5);
 `;
 
 // const overlay = {
@@ -67,12 +62,21 @@ function App() {
 
   return (
     <Wrapper onClick={toggle}>
-      <Box>
-        { click? <Circle layoutId="hello"/> : null}
-      </Box>
-      <Box>
-        { !click? <Circle layoutId="hello"/> : null}
-      </Box>
+      <Grid>
+        <Box />
+        <Box />
+        <Box />
+        <Box />
+      </Grid>
+      <AnimatePresence>
+         { click ? (
+            <Overlay initial={{ opacity: 0}} animate={{ opacity: 1}} exit={{ opacity : 0}}>
+              
+            </Overlay>
+          ) : (
+            null
+          )}
+      </AnimatePresence>
     </Wrapper>
   );
 }
