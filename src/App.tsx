@@ -55,11 +55,11 @@ const Circle = styled(motion.div)`
 `;
 
 const boxVar = {
-  start : {
-    
+  hover : {
+    scale : 1.5 , rotateZ: 90,
   },
-  end : {
-   
+  click : {
+    borderRadius: "100px", 
   },
 }
 
@@ -70,11 +70,11 @@ function App() {
   return (
     <Wrapper>di
       <Box 
-        // variants={boxVar} 
+        variants={boxVar} 
         // initial="start" 
         // animate="end"
-        whileHover={{ scale : 1.5 , rotateZ: 90}}
-        whileTap={{ borderRadius: "100px" }}
+        whileHover={"hover"}
+        whileTap={"click"}
       />
     </Wrapper>
   );
