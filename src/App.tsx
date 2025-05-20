@@ -25,16 +25,12 @@ const Grid = styled.div`
 
 const Box = styled(motion.div)`
   width: 400px;
-  height: 200px;
-  background-color: rgba(255, 255, 255, 1);
+  height: 400px;
   border-radius: 40px;
+  background-color: rgba(255, 255, 255, 1);
   top: 100px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
   display:flex;
-  justify-content: center;
-  align-items: center;
-  font-size:25px;
-  position: absolute;
 `;
 
 const Overlay = styled(motion.div)`
@@ -53,64 +49,27 @@ const Overlay = styled(motion.div)`
 //   exit: { backgroundColor: "rgba(0, 0, 0, 0)" },
 // };
 
-const boxVar = {
-  entry: (isBack:boolean) => ({
-    x: isBack ? -500 : 500,
-    opacity: 0,
-    scale: 0,
-  }),
-  center: (isBack:boolean) => ({
-    x: 0,
-    opacity: 1,
-    scale: 1,
-    transition : {
-      duration : 1,
-    }
-  }),
-  exit: (isBack:boolean) => ({
-    x: isBack ? 500 : -500,
-    opacity: 0,
-    scale: 0,
-    transition : {
-      duration : 1,
-    },
-    rotateX: 180,
-  })
-}
-
+const Circle = styled(motion.div)`
+  background-color: #00a5ff;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+`;
 
 function App() {
-  const [visible, setVisible] = useState(1);
-  const [isBack, setIsback] = useState(false);
-  const nextPlz = () => {
-    setVisible((prev) => (
-      prev === 10 ? 10 : prev+1
-    ));
-    setIsback(false);
+  const [click, setClick] = useState(false);
+  const toggle = () => {
+    setClick((prev) => !prev);
   }
-  const prevPlz = () => {
-    setVisible((prev) => (
-      prev === 1 ? 1 : prev-1
-    ));
-    setIsback(true);
-  }
-  
 
   return (
-    <Wrapper>
-      <AnimatePresence custom={isBack}> 
-        <Box 
-          variants={boxVar}
-          initial="entry"
-          animate="center"
-          exit="exit"
-          key={visible}
-        >
-          {visible}
-        </Box>
-      </AnimatePresence>
-      <button onClick={nextPlz}>nextPlz</button>
-      <button onClick={prevPlz}>prevPlz</button>
+    <Wrapper onClick={toggle}>
+      <Box style={{ 
+        justifyContent: click ? "center" : "flex-start", alignItems: click ? "center" : "flex-start"
+       }}>
+        <Circle layout />
+      </Box>
     </Wrapper>
   );
 }
