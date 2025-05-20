@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -46,58 +46,19 @@ const Overlay = styled(motion.div)`
 //   exit: { backgroundColor: "rgba(0, 0, 0, 0)" },
 // };
 
-const Circle = styled(motion.div)`
- background-color: white;
- height: 70px;
- width: 70px;
- place-self: center;
- border-radius: 50px;
-`;
-
-const boxVar = {
-  hover : {
-    scale : 1.5 , rotateZ: 90,
-  },
-  click : {
-    borderRadius: "100px",
-  },
-  drag: {
-    transition : {
-      duration : 1,
-    }
-  }
-}
-
-const BiggerBox = styled.div`
-  width: 600px;
-  height: 600px;
-  background-color: rgba(255,255,255,0.2);
-  border-radius: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
-
 
 function App() {
-  const biggerBoxRef = useRef<HTMLDivElement>(null)
+  const x = useMotionValue(0);
+  useEffect(() => {
+    x.onChange(() => console.log(x.get()));
+  })
   return (
     <Wrapper>
-      <BiggerBox ref={biggerBoxRef}>
-        <Box 
-          drag
-          dragConstraints={ biggerBoxRef }
-          dragSnapToOrigin
-          dragElastic={1}
-          whileDrag={"drag"}
-          variants={boxVar} 
-          // initial="start" 
-          // animate="end"
-          whileHover={"hover"}
-          whileTap={"click"}
-        />
-      </BiggerBox>
+      <Box 
+        drag="x"
+        dragSnapToOrigin
+        style={{ x }}
+      />
     </Wrapper>
   );
 }
