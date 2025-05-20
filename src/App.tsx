@@ -59,8 +59,14 @@ const boxVar = {
     scale : 1.5 , rotateZ: 90,
   },
   click : {
-    borderRadius: "100px", 
+    borderRadius: "100px",
   },
+  drag: {
+    backgroundColor : "rgb(46, 204, 113)",
+    transition : {
+      duration : 1,
+    }
+  }
 }
 
 
@@ -68,8 +74,10 @@ const boxVar = {
 function App() {
   
   return (
-    <Wrapper>di
+    <Wrapper>
       <Box 
+        drag
+        whileDrag={"drag"}
         variants={boxVar} 
         // initial="start" 
         // animate="end"
