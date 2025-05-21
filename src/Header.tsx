@@ -98,6 +98,16 @@ const Input = styled(motion.input)`
   border: 1px solid ${(props) => props.theme.white.lighter};
 `;
 
+
+const navVar = {
+  top:{
+    backgroundColor : "rgba(0,0,0,0)",
+  },
+  scroll:{
+    backgroundColor: "rgba(0,0,0,1)",
+  },
+}
+
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const homeMatch = useRouteMatch("/");
@@ -120,18 +130,21 @@ function Header() {
   useEffect(() => {
     scrollY.onChange(() => {
       if(scrollY.get()  > 80){
-        navAnimation.start({
-          backgroundColor: "rgba(0,0,0,1)",
-        });
+        // navAnimation.start({
+        //   backgroundColor: "rgba(0,0,0,1)",
+        // });
+        navAnimation.start("scroll");
       } else {
-        navAnimation.start({
-          backgroundColor: "rgba(0,0,0,0)",
-        });
+        // navAnimation.start({
+        //   backgroundColor: "rgba(0,0,0,0)",
+        // });
+        navAnimation.start("top");
       }
     });
-  }, [scrollY]);
+  }, [scrollY, navAnimation]);
   return (
-    <Nav initial={{ backgroundColor : "rgba(0,0,0,0)"}} animate={navAnimation}>
+    // <Nav initial={{ backgroundColor : "rgba(0,0,0,0)"}} animate={navAnimation}>
+    <Nav variants={navVar} initial={"top"} animate={navAnimation}>
       <Col>
         <Logo
           variants={logoVariants}
