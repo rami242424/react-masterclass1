@@ -122,7 +122,6 @@ const Overlay = styled(motion.div)`
   height: 100%;
   background-color: rgba(0,0,0,0.5);
   opacity: 0;
-
 `;
 
 const BigPopup = styled(motion.div)`
@@ -132,7 +131,32 @@ const BigPopup = styled(motion.div)`
   left:0;
   right: 0;
   margin: 0 auto;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: ${(props) => props.theme.black.lighter};
+`;
 
+const BigPopupCover = styled.div`
+  width: 100%;
+  height:300px;
+  background-size: cover;
+  background-position: center center;
+`;
+
+const BigPopupTitle = styled.h2`
+  color: ${(props) => props.theme.white.lighter};
+  font-size: 25px;
+  padding: 15px;
+  position: relative;
+  top: -50px;
+`;
+
+const BigPopupOverview = styled.p`
+  font-size: 15px;
+  padding: 15px;
+  color: ${(props) => props.theme.white.lighter};
+  top: -70px;
+  position: relative;
 `;
 
 
@@ -161,6 +185,8 @@ function Home() {
     history.goBack();
   }
   const {scrollY} = useViewportScroll();
+  const ClickedMovie = movieMatch?.params.movieId && data?.results.find((movie) => String(movie.id) === movieMatch.params.movieId);
+  console.log(ClickedMovie, "clickedmovie");
   return (
     <Wrapper>
       {isLoading? (
@@ -212,7 +238,16 @@ function Home() {
                   <BigPopup 
                     layoutId={movieMatch.params.movieId}
                     style={{ top: scrollY.get() + 50}}
-                  />
+                  >
+                    {ClickedMovie && (
+                      <>
+                        <BigPopupCover 
+                          style={{ backgroundImage: `linear-gradient(transparent, black), url(${makeImgPath(ClickedMovie.backdrop_path, "w500")})` }}/>
+                        <BigPopupTitle>{ClickedMovie.title}</BigPopupTitle>
+                        <BigPopupOverview>{ClickedMovie.overview}</BigPopupOverview>
+                      </>
+                    )}
+                  </BigPopup>
                 </>
                 ) : (
                   null
