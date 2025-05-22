@@ -43,7 +43,7 @@ const Slider = styled.div`
 const Row = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
+  gap: 5px;
   position:absolute;
   width: 100%;
 `;
@@ -56,25 +56,32 @@ const Box = styled(motion.div)`
 
 const rowVar = {
   hidden : {
-    x: window.outerWidth - 10,
+    x: window.outerWidth - 5 ,
   },
   visible : {
     x: 0,
   },
   exit: {
-    x: -window.outerWidth + 10,
+    x: -window.outerWidth + 5 ,
   },
 }
 
+const offset = 6;
 
 function Home() {
   const{ data, isLoading } = useQuery<IGetMoviesResult>(["movies", "nowPlaying"], getMovies);
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const incIndex = () => {
-    if(leaving) return;
-    toggleLeaving();
-    setIndex((prev) => prev+1);
+    if(data) {
+      if(leaving) return;
+      toggleLeaving();
+      const totalMovies = data.results.length - 1;
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
+      setIndex((prev) => (
+        prev === maxIndex ? 0 : prev+1
+      ));
+    }
   }
   const toggleLeaving = () => {
     setLeaving((prev) => !prev);
@@ -97,9 +104,15 @@ function Home() {
                   animate="visible" 
                   exit="exit" 
                   key={index}
-                  transition={{ type: "tween", duration: 5}}
+                  transition={{ type: "tween", duration: 2}}
                 >
-                  {[1,2,3,4,5,6].map((n) => <Box key={n}>{n}</Box>)}
+                  {data?.results
+                    .slice(1)
+                    .slice(offset * index, offset * index + offset)
+                    .map((movie) => (
+                      <Box key={movie.id}>{movie.title}</Box>
+                    ))
+                  }
                 </Row>
               </AnimatePresence>
             </Slider>
