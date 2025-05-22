@@ -54,13 +54,13 @@ const Box = styled(motion.div)<{bgImg:string}>`
   background-size: cover;
   background-position: center center;
   height: 200px;
-  color: red;
+  color: white;
   &:first-child {
     transform-origin: center left;
-  }
+  };
   &:last-child {
     transform-origin: center right;
-  }
+  };
 `;
 
 const rowVar = {
@@ -91,6 +91,25 @@ const boxVar = {
       delay: 0.1,
       type: "tween",
     }
+  },
+}
+
+const PopupInfo = styled(motion.div)`
+  padding: 10px;
+  background-color: ${(props) => props.theme.black.lighter};
+  opacity: 0;
+  position: absolute;
+  width:100%;
+  bottom: 0;
+  h4 {
+    text-align: center;
+    font-size: 18px;
+  }
+`;
+
+const PopupInfoVar = {
+  hover:{
+    opacity: 1,
   },
 }
 
@@ -143,7 +162,11 @@ function Home() {
                         whileHover="hover"
                         bgImg={makeImgPath(movie.backdrop_path, "w500")}
                       >
-                        {movie.title}
+                        <PopupInfo 
+                          variants={PopupInfoVar}
+                        >
+                          <h4>{movie.title}</h4>
+                        </PopupInfo>
                       </Box>
                     ))
                   }
