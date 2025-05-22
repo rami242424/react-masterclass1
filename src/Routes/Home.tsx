@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { getMovies, IGetMoviesResult } from "../api";
 import styled from "styled-components";
 import makeImgPath from "../utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useViewportScroll } from "framer-motion";
 import { useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 
@@ -115,6 +115,27 @@ const PopupInfoVar = {
   },
 }
 
+const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  opacity: 0;
+
+`;
+
+const BigPopup = styled(motion.div)`
+  position: absolute;
+  width: 40vw;
+  height: 80vh;
+  left:0;
+  right: 0;
+  margin: 0 auto;
+
+`;
+
+
 function Home() {
   const{ data, isLoading } = useQuery<IGetMoviesResult>(["movies", "nowPlaying"], getMovies);
   const [index, setIndex] = useState(0);
@@ -136,7 +157,10 @@ function Home() {
     history.push(`/movies/${movieId}`);
   }
   const movieMatch = useRouteMatch<{movieId: string}>("/movies/:movieId");
-  console.log(movieMatch, "movieMatch야")
+  const overlayClick = () => {
+    history.goBack();
+  }
+  const {scrollY} = useViewportScroll();
   return (
     <Wrapper>
       {isLoading? (
@@ -182,19 +206,17 @@ function Home() {
               </AnimatePresence>
             </Slider>
             <AnimatePresence>
-              { movieMatch ? <motion.div 
-                layoutId={movieMatch.params.movieId}
-                style={{
-                  position: "absolute",
-                  width: "40vw",
-                  height: "80vh",
-                  backgroundColor:"red",
-                  top: 50,
-                  left:0,
-                  right: 0,
-                  margin: "0 auto"
-                }}
-              /> : null}
+              { movieMatch ? (
+                <>
+                  <Overlay onClick={overlayClick} animate={{opacity: 1}} exit={{opacity: 0}}/>
+                  <BigPopup 
+                    layoutId={movieMatch.params.movieId}
+                    style={{ top: scrollY.get() + 50}}
+                  />
+                </>
+                ) : (
+                  null
+                )}
             </AnimatePresence>
           </>)
           
