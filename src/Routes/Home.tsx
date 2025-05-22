@@ -55,6 +55,12 @@ const Box = styled(motion.div)<{bgImg:string}>`
   background-position: center center;
   height: 200px;
   color: red;
+  &:first-child {
+    transform-origin: center left;
+  }
+  &:last-child {
+    transform-origin: center right;
+  }
 `;
 
 const rowVar = {
@@ -70,6 +76,23 @@ const rowVar = {
 }
 
 const offset = 6;
+
+const boxVar = {
+  normal: {
+    scale : 1,
+    transition: {
+      type: "tween",
+    }
+  },
+  hover: {
+    scale : 1.1,
+    y: -40,
+    transition: {
+      delay: 0.1,
+      type: "tween",
+    }
+  },
+}
 
 function Home() {
   const{ data, isLoading } = useQuery<IGetMoviesResult>(["movies", "nowPlaying"], getMovies);
@@ -115,6 +138,9 @@ function Home() {
                     .map((movie) => (
                       <Box 
                         key={movie.id}
+                        variants={boxVar}
+                        initial="normal"
+                        whileHover="hover"
                         bgImg={makeImgPath(movie.backdrop_path, "w500")}
                       >
                         {movie.title}
