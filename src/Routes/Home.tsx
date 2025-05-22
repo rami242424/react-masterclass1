@@ -160,6 +160,7 @@ const BigPopupOverview = styled.p`
 `;
 
 
+
 function Home() {
   const{ data, isLoading } = useQuery<IGetMoviesResult>(["movies", "nowPlaying"], getMovies);
   const [index, setIndex] = useState(0);
@@ -186,7 +187,7 @@ function Home() {
   }
   const {scrollY} = useViewportScroll();
   const ClickedMovie = movieMatch?.params.movieId && data?.results.find((movie) => String(movie.id) === movieMatch.params.movieId);
-  console.log(ClickedMovie, "clickedmovie");
+  
   return (
     <Wrapper>
       {isLoading? (
