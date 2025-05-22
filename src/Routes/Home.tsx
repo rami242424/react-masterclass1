@@ -48,8 +48,11 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
-const Box = styled(motion.div)`
+const Box = styled(motion.div)<{bgImg:string}>`
   background-color: white;
+  background-image: url(${(props) => props.bgImg});
+  background-size: cover;
+  background-position: center center;
   height: 200px;
   color: red;
 `;
@@ -110,7 +113,12 @@ function Home() {
                     .slice(1)
                     .slice(offset * index, offset * index + offset)
                     .map((movie) => (
-                      <Box key={movie.id}>{movie.title}</Box>
+                      <Box 
+                        key={movie.id}
+                        bgImg={makeImgPath(movie.backdrop_path, "w500")}
+                      >
+                        {movie.title}
+                      </Box>
                     ))
                   }
                 </Row>
