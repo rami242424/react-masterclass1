@@ -1,14 +1,13 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
+import Header from "./Header";
+import Tv from "./Routes/Tv";
 import Home from "./Routes/Home";
 import Search from "./Routes/Search";
-import Tv from "./Routes/Tv";
-import Header from "./Header";
 
-function App() {
+function App(){
   return (
     <Router>
-      <Header />
+      <Header/>
       <Switch>
         <Route path="/tv">
           <Tv />
@@ -16,7 +15,7 @@ function App() {
         <Route path="/search">
           <Search />
         </Route>
-        <Route path={["/", "/movies/:movieId"]}>
+        <Route path="/">
           <Home />
         </Route>
       </Switch>
