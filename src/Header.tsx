@@ -1,6 +1,6 @@
 import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { animate, motion } from "framer-motion";
 import { useState } from "react";
 
 const Nav = styled.nav`
@@ -86,16 +86,42 @@ const Input = styled(motion.input)`
   border: 1px solid ${(props) => props.theme.white.lighter};
 `;
 
+const logoVar = {
+  normal: {
+    fillOpacity: 1,
+  },
+  active: {
+    fillOpacity: [0,1,0],
+    transition: {
+      repeat: Infinity,
+    }
+  },
+}
+
+const inputVar = {
+  initial :{
+
+  },
+  animate:{
+
+  },
+}
 
 
 function Header() {
   const homeMatch = useRouteMatch('/');
   const tvMatch = useRouteMatch('/tv');
-  
+  const [isOpen, setIsOpen] = useState(true);
+  const toggleSearch = () => {
+    setIsOpen((prev) => !prev)
+  }
   return (
     <Nav>
       <Col>
         <Logo
+          variants={logoVar}
+          initial="initial"
+          whileHover="active"
           xmlns="http://www.w3.org/2000/svg"
           width="1024"
           height="276.742"
@@ -111,6 +137,7 @@ function Header() {
       <Col>
         <Search>
           <motion.svg
+            onClick={toggleSearch}
             transition={{ type: "linear" }}
             fill="currentColor"
             viewBox="0 0 20 20"
@@ -123,6 +150,8 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
+            variants={inputVar}
+            style={{ opacity: isOpen? 1 : 0}}
             transition={{ type: "linear" }}
             placeholder="Search for movie or tv show..."
           />
