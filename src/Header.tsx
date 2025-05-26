@@ -96,6 +96,9 @@ const logoVar = {
       repeat: Infinity,
     }
   },
+  exit: {
+    fillOpacity:1,
+  }
 }
 
 const inputVar = {
@@ -120,7 +123,8 @@ function Header() {
       <Col>
         <Logo
           variants={logoVar}
-          initial="initial"
+          initial="normal"
+          animate="normal"
           whileHover="active"
           xmlns="http://www.w3.org/2000/svg"
           width="1024"
