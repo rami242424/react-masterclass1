@@ -1,6 +1,6 @@
 import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
-import { animate, motion, useTransform, useViewportScroll } from "framer-motion";
+import { animate, motion, useAnimation, useTransform, useViewportScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const Nav = styled(motion.nav)`
@@ -107,6 +107,15 @@ const inputVar = {
   },
 }
 
+//for 방법2
+const navVar = {
+  scroll: {
+    backgroundColor: "rgba(123,123,123,1)",
+  },
+  top:{
+    backgroundColor: "#14dd7f",
+  },
+}
 
 function Header() {
   const homeMatch = useRouteMatch('/');
@@ -116,13 +125,27 @@ function Header() {
     setIsSearchOpen((prev) => !prev)
   }
   const {scrollY} = useViewportScroll();
-  const NavBackground = useTransform(
-    scrollY,
-    [0, 80],
-    ["rgba(0,0,0,0)", "rgba(0,0,0,1)"]
-  );
+  // 방법1
+  // const NavBackground = useTransform(
+  //   scrollY,
+  //   [0, 80],
+  //   ["rgba(0,0,0,0)", "rgba(0,0,0,1)"]
+  // );
+  // 방법2
+  const navAnimation = useAnimation();
+  useEffect(() => {
+    scrollY.onChange(() => {
+      if(scrollY.get() > 80) {
+        navAnimation.start("scroll")
+      } else {
+        navAnimation.start("top")
+      }
+    })
+  }, [scrollY, navAnimation]);
+  
   return (
-    <Nav style={{ backgroundColor: NavBackground}}>
+    //<Nav style={{ backgroundColor: NavBackground}}>
+    <Nav variants={navVar} initial="scroll" animate={navAnimation}>
       <Col>
         <Logo
           variants={logoVar}
