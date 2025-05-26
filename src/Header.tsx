@@ -121,10 +121,28 @@ function Header() {
   const homeMatch = useRouteMatch('/');
   const tvMatch = useRouteMatch('/tv');
   const [IsSearchOpen, setIsSearchOpen] = useState(false);
+  const {scrollY} = useViewportScroll();
+
+  // 방법1
+  // const toggleSearch = () => {
+  //   setIsSearchOpen((prev) => !prev)
+  // }
+  // 방법2
+  const inputAnimation = useAnimation();
   const toggleSearch = () => {
+    if(IsSearchOpen){
+      inputAnimation.start({
+        scaleX: 0,
+      });
+    } else {
+      inputAnimation.start({
+        scaleX: 1,
+      });
+    }
     setIsSearchOpen((prev) => !prev)
   }
-  const {scrollY} = useViewportScroll();
+
+  
   // 방법1
   // const NavBackground = useTransform(
   //   scrollY,
@@ -181,7 +199,9 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
-            style={{ opacity: IsSearchOpen? 1 : 0}}
+            animate={inputAnimation}
+            initial={{scaleX: 0}}
+            //style={{ opacity: IsSearchOpen? 1 : 0}}
             transition={{ type: "linear" }}
             placeholder="Search for movie or tv show..."
           />
