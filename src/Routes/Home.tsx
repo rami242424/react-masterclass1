@@ -72,12 +72,12 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
-const Box = styled(motion.div)`
+const Box = styled(motion.div)<{bgImg:string}>`
   background-color: white;
   height: 200px;
-  color: red;
-  font-size: 50px;
-  
+  background-image: url(${(props) => props.bgImg});
+  background-size: cover;
+  //background-position: center center;
 `;
 
 
@@ -93,15 +93,21 @@ const rowVar = {
   },
 }
 
+const offset = 6;
+
 function Home() {
   const {data, isLoading} = useQuery<IDataProps>(["movies", "nowPlaying"], getMovies);
   console.log(data);
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const increaseIndex = () => {
-    if(leaving) return;
-    toggleLeaving();
-    setIndex((prev) => prev + 1)
+    if(data){
+      if(leaving) return;
+      toggleLeaving();
+      const totalMovies = data?.results.length - 1;
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
+      setIndex((prev) => prev === maxIndex ? 0 : prev + 1)
+    }
   }
   const toggleLeaving = () => {
     setLeaving((prev) => !prev);
@@ -126,7 +132,12 @@ function Home() {
                   exit="exit"
                   transition={{ type: "tween" }}
                 >
-                  {[1,2,3,4,5,6].map((v) => <Box key={v}>{v}</Box>)}
+                  {data?.results
+                    .slice(1)
+                    .slice(offset*index, offset*index+offset)
+                    .map((movie) => (
+                      <Box key={movie.id} bgImg={makeImgPath(movie.poster_path, "w500")}/>
+                    ))}
                 </Row>
               </AnimatePresence>
             </Slider>
