@@ -97,8 +97,14 @@ function Home() {
   const {data, isLoading} = useQuery<IDataProps>(["movies", "nowPlaying"], getMovies);
   console.log(data);
   const [index, setIndex] = useState(0);
+  const [leaving, setLeaving] = useState(false);
   const increaseIndex = () => {
+    if(leaving) return;
+    toggleLeaving();
     setIndex((prev) => prev + 1)
+  }
+  const toggleLeaving = () => {
+    setLeaving((prev) => !prev);
   }
   return (
     <Wrapper>
@@ -111,7 +117,7 @@ function Home() {
               <Overview>{data?.results[0].overview}</Overview>
             </Banner>
             <Slider>
-              <AnimatePresence>
+              <AnimatePresence onExitComplete={toggleLeaving}>
                 <Row 
                   key={index} 
                   variants={rowVar} 
