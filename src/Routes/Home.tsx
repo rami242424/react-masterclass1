@@ -74,10 +74,16 @@ const Row = styled(motion.div)`
 
 const Box = styled(motion.div)<{bgImg:string}>`
   background-color: white;
-  height: 200px;
+  height: 250px;
   background-image: url(${(props) => props.bgImg});
   background-size: cover;
-  //background-position: center center;
+  background-position: center center;
+  &:first-child{
+    transform-origin: center left;
+  }
+  &:last-child{
+    transform-origin: center right;
+  }
 `;
 
 
@@ -94,6 +100,21 @@ const rowVar = {
 }
 
 const offset = 6;
+
+const boxVar = {
+  normal: {
+    scale: 1,
+  },
+  hover : {
+    scale:1.1,
+    y:-50,
+    transition:{
+      type:"tween",
+      delay: 0.2,
+      duaration: 0.3,
+    }
+  },
+}
 
 function Home() {
   const {data, isLoading} = useQuery<IDataProps>(["movies", "nowPlaying"], getMovies);
@@ -136,7 +157,13 @@ function Home() {
                     .slice(1)
                     .slice(offset*index, offset*index+offset)
                     .map((movie) => (
-                      <Box key={movie.id} bgImg={makeImgPath(movie.poster_path, "w500")}/>
+                      <Box 
+                        key={movie.id} 
+                        bgImg={makeImgPath(movie.poster_path, "w500")}
+                        whileHover="hover"
+                        initial="normal"
+                        variants={boxVar}
+                      />
                     ))}
                 </Row>
               </AnimatePresence>
