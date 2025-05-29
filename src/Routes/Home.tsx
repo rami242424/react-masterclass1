@@ -5,6 +5,7 @@ import { theme } from './../theme';
 import makeImgPath from "../utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from 'react';
+import { useHistory } from "react-router-dom";
 
 interface IResultsProps {
   backdrop_path:string,
@@ -160,9 +161,10 @@ function Home() {
   const toggleLeaving = () => {
     setLeaving((prev) => !prev);
   }
-
+  const history = useHistory();
   const boxClicked = (movieId:number) => {
-    console.log(movieId)
+    //console.log(movieId, "movie id");
+    history.push(`/movies/${movieId}`);
   }
   return (
     <Wrapper>
