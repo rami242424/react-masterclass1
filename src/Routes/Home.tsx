@@ -28,6 +28,7 @@ export interface IDataProps {
 
 const Wrapper = styled.div`
   background: black;
+  padding-bottom: 200px;
 `;
 
 const Loader = styled.div`
@@ -74,7 +75,7 @@ const Row = styled(motion.div)`
 
 const Box = styled(motion.div)<{bgImg:string}>`
   background-color: white;
-  height: 250px;
+  height: 350px;
   background-image: url(${(props) => props.bgImg});
   background-size: cover;
   background-position: center center;
@@ -84,6 +85,8 @@ const Box = styled(motion.div)<{bgImg:string}>`
   &:last-child{
     transform-origin: center right;
   }
+  padding-bottom: 200px;
+  cursor: pointer;
 `;
 
 
@@ -141,7 +144,7 @@ const infoVariants = {
 
 function Home() {
   const {data, isLoading} = useQuery<IDataProps>(["movies", "nowPlaying"], getMovies);
-  console.log(data);
+  //console.log(data);
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const increaseIndex = () => {
@@ -153,8 +156,13 @@ function Home() {
       setIndex((prev) => prev === maxIndex ? 0 : prev + 1)
     }
   }
+
   const toggleLeaving = () => {
     setLeaving((prev) => !prev);
+  }
+
+  const boxClicked = (movieId:number) => {
+    console.log(movieId)
   }
   return (
     <Wrapper>
@@ -181,6 +189,7 @@ function Home() {
                     .slice(offset*index, offset*index+offset)
                     .map((movie) => (
                       <Box 
+                        onClick={() => boxClicked(movie.id)}
                         key={movie.id} 
                         bgImg={makeImgPath(movie.poster_path, "w500")}
                         whileHover="hover"
