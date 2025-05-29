@@ -3,9 +3,9 @@ import { getMovies } from "../api";
 import styled from "styled-components";
 import { theme } from './../theme';
 import makeImgPath from "../utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useTransform, useViewportScroll } from "framer-motion";
 import { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 interface IResultsProps {
   backdrop_path:string,
@@ -142,6 +142,34 @@ const infoVariants = {
   },
 };
 
+const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  opacity: 0;
+`;
+
+const BigMovie = styled(motion.div)`
+  position: absolute;
+  width: 40vw;
+  height: 80vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: ${(props) => props.theme.black.lighter};
+`;
+
+const BigMovieCover = styled.div`
+  width: 100%;
+  height: 350px;
+  background-size: cover;
+  background-position: center center;
+`;
+const BigMovieTitle = styled.h3`
+  color: ${(props) => props.theme.white.lighter};
+`;
 
 function Home() {
   const {data, isLoading} = useQuery<IDataProps>(["movies", "nowPlaying"], getMovies);
@@ -157,15 +185,31 @@ function Home() {
       setIndex((prev) => prev === maxIndex ? 0 : prev + 1)
     }
   }
-
   const toggleLeaving = () => {
     setLeaving((prev) => !prev);
   }
+
   const history = useHistory();
   const boxClicked = (movieId:number) => {
     //console.log(movieId, "movie id");
     history.push(`/movies/${movieId}`);
   }
+  
+  const bigMovieMatch = useRouteMatch<{movieId:string}>("/movies/:movieId");
+  //console.log(bigMovieMatch);
+
+  const overylayClicked = () => {
+    history.push("/");
+  }
+
+  const {scrollY} = useViewportScroll();
+  // 방법2
+  const setScrollY = useTransform(scrollY, (value) => value + 50);
+
+
+  const clickedMovie = bigMovieMatch && data?.results.find(movie => String(movie.id) === bigMovieMatch.params.movieId);
+  //console.log(clickedMovie);
+
   return (
     <Wrapper>
       {isLoading ? (
@@ -191,6 +235,7 @@ function Home() {
                     .slice(offset*index, offset*index+offset)
                     .map((movie) => (
                       <Box 
+                        layoutId={movie.id+""} 
                         onClick={() => boxClicked(movie.id)}
                         key={movie.id} 
                         bgImg={makeImgPath(movie.poster_path, "w500")}
@@ -206,6 +251,39 @@ function Home() {
                 </Row>
               </AnimatePresence>
             </Slider>
+            <AnimatePresence>
+              { bigMovieMatch ? (
+                <>
+                  <Overlay 
+                    onClick={overylayClicked}
+                    animate={{opacity: 1}}
+                    exit={{opacity: 0}}
+                  />
+                  <BigMovie
+                    layoutId={bigMovieMatch.params.movieId}
+                    style={{
+                      // 방법1
+                      //top: scrollY.get() + 100, 
+                      // 방법2
+                      top: setScrollY,
+                    }}
+                  >
+                    {clickedMovie && (
+                        <>
+                          <BigMovieCover
+                            style={{ backgroundImage: `url(${makeImgPath(clickedMovie.backdrop_path, "w400")})`}}
+                          />
+                          <BigMovieTitle>{clickedMovie.title}</BigMovieTitle>
+                        </>
+                      )
+                    }
+                  </BigMovie>
+                </>
+                ) : (
+                  null
+                )
+              }
+            </AnimatePresence>
           </>
         )
       }
